@@ -1,0 +1,142 @@
+{
+    "name": "CellDetect_Stardist_HE_ROI",
+    "container-image": {
+        "image": "cytomineuliege/s_celldetect_stardist_he_roi",
+        "type": "singularity"
+    },
+    "schema-version": "cytomine-0.1",
+    "description": "optional description",
+    "command-line": "python run.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE CYTOMINE_ID_IMAGE CYTOMINE_ID_ROI_TERM CYTOMINE_ID_CELL_TERM STARDIST_PROB_T STARDIST_NMS_T STARDIST_NORM_PERC_LOW STARDIST_NORM_PERC_HIGH",
+    "inputs": [
+        {
+        	"id": "cytomine_host",
+      		"value-key": "@ID",
+      		"command-line-flag": "--@id",
+      		"name": "Cytomine host",
+      		"set-by-server": true,
+      		"optional": false,
+      		"type": "String"
+    	},
+        {
+			"id": "cytomine_public_key",
+			"value-key": "@ID",
+			"command-line-flag": "--@id",
+			"name": "Cytomine public key",
+			"set-by-server": true,
+			"optional": false,
+			"type": "String"
+    	},
+    	{
+    		"id": "cytomine_private_key",
+			"value-key": "@ID",
+			"command-line-flag": "--@id",
+			"name": "Cytomine private key",
+			"set-by-server": true,
+			"optional": false,
+			"type": "String"
+    	},
+		{
+			"id": "cytomine_id_project",
+			"value-key": "@ID",
+			"command-line-flag": "--@id",
+			"name": "Cytomine project ID",
+			"set-by-server": true,
+			"optional": false,
+			"type": "Number"
+    	},
+		{
+			"id": "cytomine_id_software",
+			"value-key": "@ID",
+			"command-line-flag": "--@id",
+			"name": "Cytomine software ID",
+			"set-by-server": true,
+			"optional": false,
+			"type": "Number"
+		},
+	{
+	    "id": "cytomine_id_image",
+	    "value-key": "@ID",
+	    "command-line-flag": "--@id",
+	    "name": "Cytomine Image ID",
+	    "description": "Images on which to predict",
+	    "set-by-server": false,
+	    "optional": false,
+	    "type": "Domain",
+	        "uri": "/api/project/$currentProject$/imageinstance.json",
+	        "uri-print-attribute": "instanceFilename",
+	        "uri-sort-attribute": "instanceFilename"
+	},
+
+	{
+	    "id": "cytomine_id_roi_term",
+	    "value-key": "@ID",
+	    "command-line-flag": "--@id",
+	    "name": "Cytomine ROI term ID",
+	    "description": "Ontology term ID for ROI(s) where to detect cells",
+	    "set-by-server": false,
+	    "optional": false,
+	    "type": "Domain",
+	    "uri": "/api/ontology/$currentOntology$/term.json",
+	    "uri-print-attribute": "name",
+	    "uri-sort-attribute": "name"
+	},
+
+	{
+	    "id": "cytomine_id_cell_term",
+	    "value-key": "@ID",
+	    "command-line-flag": "--@id",
+	    "name": "Cytomine Cell term ID",
+	    "description": "Ontology term ID for Cell to be detected",
+	    "set-by-server": false,
+	    "optional": false,
+	    "type": "Domain",
+	    "uri": "/api/ontology/$currentOntology$/term.json",
+	    "uri-print-attribute": "name",
+	    "uri-sort-attribute": "name"
+	},
+	{
+	    "id": "stardist_prob_t",
+	    "value-key": "@ID",
+	    "command-line-flag": "--@id",
+	    "name": "Stardist Probability Threshold",
+	    "description": "Probability Threshold in range [0.0, 1.0] - higher values lead to fewer segmented objects, but will likely avoid false positives",
+	    "default-value": 0.5,
+	    "set-by-server": false,
+	    "optional": true,
+	    "type": "Number"
+	},
+	{
+	    "id": "stardist_nms_t",
+	    "value-key": "@ID",
+	    "command-line-flag": "--@id",
+	    "name": "Stardist Non-Maximum Suppression Overlap threshold",
+	    "description": "Overlap Threshold in range [0.0, 1.0] - higher values allow segmented objects to overlap substantially.",
+	    "default-value": 0.5,
+	    "set-by-server": false,
+	    "optional": true,
+	    "type": "Number"
+	},
+	{
+	    "id": "stardist_norm_perc_low",
+	    "value-key": "@ID",
+	    "command-line-flag": "--@id",
+	    "name": "Stardist Image Normalization Percentile Low",
+	    "description": "Percentile low in range [0.0 100.0]",
+	    "default-value": 1,
+	    "set-by-server": false,
+	    "optional": true,
+	    "type": "Number"
+	},
+	{
+	    "id": "stardist_norm_perc_high",
+	    "value-key": "@ID",
+	    "command-line-flag": "--@id",
+	    "name": "Stardist Image Normalization Percentile High",
+	    "description": "Percentile high in range [0.0 100.0]",
+	    "default-value": 99.8,
+	    "set-by-server": false,
+	    "optional": true,
+	    "type": "Number"
+	}
+    ]
+}
