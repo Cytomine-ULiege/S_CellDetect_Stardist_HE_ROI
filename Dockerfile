@@ -3,7 +3,7 @@ FROM python:3.7-stretch
 # -----------------------------------------------------------------------------
 # Install Stardist and tensorflow
 RUN pip install tensorflow==1.15
-RUN pip install stardist
+RUN pip install stardist==0.5.0
 RUN mkdir -p /models && \
     cd /models && \
     mkdir -p 2D_versatile_HE
