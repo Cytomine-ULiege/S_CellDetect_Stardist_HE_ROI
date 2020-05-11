@@ -75,7 +75,6 @@ def main(argv):
             roi_png_filename=os.path.join(roi_path+'/'+str(roi.id)+'.png')
             print("roi_png_filename: %s" %roi_png_filename)
             roi.dump(dest_pattern=roi_png_filename,mask=True,alpha=True)
-            print(os.listdir(roi_path))
             #roi.dump(dest_pattern=os.path.join(roi_path,"{id}.png"), mask=True, alpha=True)
             
             #Stardist works with TIFF images without alpha channel, flattening PNG alpha mask to TIFF RGB
@@ -84,13 +83,8 @@ def main(argv):
             bg.paste(im,mask=im.split()[3])
             roi_tif_filename=os.path.join(roi_path+'/'+str(roi.id)+'.tif')
             bg.save(roi_tif_filename,quality=100)
-            print("dir after convert")
-            print(os.listdir(roi_path))
             X_files = sorted(glob(roi_path+'/'+str(roi.id)+'*.tif'))
-            print(X_files)
             X = list(map(imread,X_files))
-            #print("X image dimension: %d, number of images: %d" %(X[0].ndim,len(X)))
-
             n_channel = 3 if X[0].ndim == 3 else X[0].shape[-1]
             axis_norm = (0,1)   # normalize channels independently  (0,1,2) normalize channels jointly
             if n_channel > 1:
@@ -106,6 +100,7 @@ def main(argv):
                                                           nms_thresh=conn.parameters.stardist_nms_t)
                 print("Number of detected polygons: %d" %len(details['coord']))
                 cytomine_annotations = AnnotationCollection()
+                #Go over detections in ROI, convert and upload to Cytomine
                 for pos,polygroup in enumerate(details['coord'],start=1):
                     #Converting to Shapely annotation
                     points = list()
@@ -123,7 +118,7 @@ def main(argv):
                                                            id_terms=[conn.parameters.cytomine_id_cell_term]))
                     print(".",end = '',flush=True)
 
-                #Send annotation collection (for this ROI) to Cytomine server in one http request
+                #Send Annotation Collection (for this ROI) to Cytomine server in one http request
                 ca = cytomine_annotations.save()
 
         conn.job.update(status=Job.TERMINATED, progress=100, statusComment="Finished.")
