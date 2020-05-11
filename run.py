@@ -18,21 +18,16 @@
 from __future__ import print_function, unicode_literals, absolute_import, division
 import sys
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
 import os
-from shapely.geometry import shape, box, Polygon, MultiPolygon,Point
+from shapely.geometry import shape, box, Polygon,Point
 from shapely import wkt
 from glob import glob
 from tifffile import imread
 from csbdeep.utils import Path, normalize
-from csbdeep.io import save_tiff_imagej_compatible
-
-from stardist import random_label_cmap, _draw_polygons, export_imagej_rois
+from stardist import random_label_cmap
 from stardist.models import StarDist2D
-
 from cytomine import cytomine, models, CytomineJob
-from cytomine.models import Annotation, AnnotationTerm, AnnotationCollection, ImageInstanceCollection
+from cytomine.models import Annotation, AnnotationTerm, AnnotationCollection, ImageInstanceCollection, Job
 from PIL import Image
 import argparse
 import json
@@ -43,7 +38,7 @@ __author__ = "Maree Raphael <raphael.maree@uliege.be>"
 
 def main(argv):
     with CytomineJob.from_cli(argv) as conn:
-        conn.job.update(status=Job.RUNNING, progress=0, status_comment="Initialization of the StarDist detection")
+        conn.job.update(status=Job.RUNNING, progress=0, statusComment="Initialization...")
         base_path = "{}".format(os.getenv("HOME")) # Mandatory for Singularity
         working_path = os.path.join(base_path,str(conn.job.id))
         
@@ -56,6 +51,7 @@ def main(argv):
 
 
         #Dump ROI annotations from Cytomine server to local images
+        conn.job.update(status=Job.RUNNING, progress=0, statusComment="Fetching ROI annotations...")
         roi_annotations = AnnotationCollection()
         roi_annotations.project = conn.parameters.cytomine_id_project
         roi_annotations.term = conn.parameters.cytomine_id_roi_term
@@ -63,7 +59,8 @@ def main(argv):
         roi_annotations.showWKT = True
         roi_annotations.fetch()
         print(roi_annotations)
-        for roi in roi_annotations:
+        for roi in conn.monitor(roi_annotations, prefix="Running detection on ROI", period=0.1):
+        #for roi in roi_annotations:
             #Get Cytomine ROI coordinates for remapping to whole-slide
             #Cytomine cartesian coordinate system, (0,0) is bottom left corner
             print("----------------------------ROI------------------------------")
@@ -75,8 +72,10 @@ def main(argv):
             miny=roi_geometry.bounds[3]
             #Dump ROI image into local PNG file
             roi_path=os.path.join(working_path,str(roi_annotations.project)+'/'+str(roi_annotations.image)+'/'+str(roi.id))
-            roi_png_filename=os.path.join(roi_path+'/'+str(roi.id)+'png')
+            roi_png_filename=os.path.join(roi_path+'/'+str(roi.id)+'.png')
+            print("roi_png_filename: %s" %roi_png_filename)
             roi.dump(dest_pattern=roi_png_filename,mask=True,alpha=True)
+            print(os.listdir(roi_path))
             #roi.dump(dest_pattern=os.path.join(roi_path,"{id}.png"), mask=True, alpha=True)
             
             #Stardist works with TIFF images without alpha channel, flattening PNG alpha mask to TIFF RGB
@@ -85,7 +84,10 @@ def main(argv):
             bg.paste(im,mask=im.split()[3])
             roi_tif_filename=os.path.join(roi_path+'/'+str(roi.id)+'.tif')
             bg.save(roi_tif_filename,quality=100)
-            X_files = sorted(glob(roi_path+'*.tif'))
+            print("dir after convert")
+            print(os.listdir(roi_path))
+            X_files = sorted(glob(roi_path+'/'+str(roi.id)+'*.tif'))
+            print(X_files)
             X = list(map(imread,X_files))
             #print("X image dimension: %d, number of images: %d" %(X[0].ndim,len(X)))
 
@@ -102,8 +104,6 @@ def main(argv):
                 labels, details = model.predict_instances(img,
                                                           prob_thresh=conn.parameters.stardist_prob_t,
                                                           nms_thresh=conn.parameters.stardist_nms_t)
-                #Save label image locally for inspection
-                #matplotlib.image.imsave(working_path+'/'+str(roi.id)+os.path.basename(roi_filename)+"_label_"+str(len(details['coord']))+".png", labels)
                 print("Number of detected polygons: %d" %len(details['coord']))
                 cytomine_annotations = AnnotationCollection()
                 for pos,polygroup in enumerate(details['coord'],start=1):
@@ -116,25 +116,17 @@ def main(argv):
                         points.append(p)
 
                     annotation = Polygon(points)
-                    #Send annotation to Cytomine server
-                    #Add annotation one by one (one http request per annotation), with term. Slowish.
-                    #cytomine_annotation = Annotation(location=annotation.wkt,
-                    #                                 id_image=conn.parameters.cytomine_id_image,
-                    #                                 id_project=conn.parameters.cytomine_id_project).save()
-                    #Add term to annotation to Cytomine server
-                    #AnnotationTerm(cytomine_annotation.id, conn.parameters.cytomine_id_cell_term).save()
-                    print(".",end = '',flush=True)
-
-                    #Alternative: Append to Annotation collection 
+                    #Append to Annotation collection 
                     cytomine_annotations.append(Annotation(location=annotation.wkt,
                                                            id_image=conn.parameters.cytomine_id_image,
                                                            id_project=conn.parameters.cytomine_id_project,
                                                            id_terms=[conn.parameters.cytomine_id_cell_term]))
-                    
-                #Alternative (faster): add collection of annotations (without term) in one http request
+                    print(".",end = '',flush=True)
+
+                #Send annotation collection (for this ROI) to Cytomine server in one http request
                 ca = cytomine_annotations.save()
 
-
+        conn.job.update(status=Job.TERMINATED, progress=100, statusComment="Finished.")
                 
 if __name__ == "__main__":
     main(sys.argv[1:])
