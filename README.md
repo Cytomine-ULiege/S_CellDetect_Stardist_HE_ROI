@@ -6,4 +6,4 @@ This implementation applies a Stardist pre-trained model (versatile_HE) to Cytom
 
 While the original model was trained with H&E images, it seems to produce decent results with other stainings. Future work will investigate benchmarking and fine-tuning models with specific data.
 
-This version use tensorflow CPU version to ensure compatibility with many computers.
+This version use tensorflow CPU version (See Dockerfile) to ensure compatibility with many computers.
