@@ -9,4 +9,7 @@ While the original model was trained with H&E images, it seems to produce decent
 This version use tensorflow CPU version (See Dockerfile) to ensure compatibility with many computers.
 
 Here is an example of StarDist detections in Cytomine web viewer of a whole-slide image:
+
+![](screenshot-launch.jpg)
 ![](screenshot.jpg)
+![](screenshot-detections.jpg)
