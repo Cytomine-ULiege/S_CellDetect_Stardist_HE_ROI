@@ -6,7 +6,7 @@
     },
     "schema-version": "cytomine-0.1",
     "description": "optional description",
-    "command-line": "python run.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE CYTOMINE_ID_IMAGE CYTOMINE_ID_ROI_TERM CYTOMINE_ID_CELL_TERM STARDIST_PROB_T STARDIST_NMS_T STARDIST_NORM_PERC_LOW STARDIST_NORM_PERC_HIGH",
+    "command-line": "python run.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE CYTOMINE_ID_IMAGES CYTOMINE_ID_ROI_TERM CYTOMINE_ID_CELL_TERM STARDIST_PROB_T STARDIST_NMS_T STARDIST_NORM_PERC_LOW STARDIST_NORM_PERC_HIGH",
     "inputs": [
         {
         	"id": "cytomine_host",
@@ -54,14 +54,14 @@
 			"type": "Number"
 		},
 	{
-	    "id": "cytomine_id_image",
+	    "id": "cytomine_id_images",
 	    "value-key": "@ID",
 	    "command-line-flag": "--@id",
-	    "name": "Cytomine Image ID",
-	    "description": "Images on which to predict",
+	    "name": "Cytomine Image IDs",
+	    "description": "Images on which to detect objects",
 	    "set-by-server": false,
 	    "optional": false,
-	    "type": "Domain",
+	    "type": "ListDomain",
 	        "uri": "/api/project/$currentProject$/imageinstance.json",
 	        "uri-print-attribute": "instanceFilename",
 	        "uri-sort-attribute": "instanceFilename"
