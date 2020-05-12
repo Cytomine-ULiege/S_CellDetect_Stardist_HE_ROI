@@ -10,6 +10,6 @@ This version use tensorflow CPU version (See Dockerfile) to ensure compatibility
 
 Here is an example of StarDist detections in Cytomine web viewer of a whole-slide image:
 
-![](screenshot-launch.jpg)
 ![](screenshot.jpg)
+![](screenshot-launch.jpg)
 ![](screenshot-detections.jpg)
