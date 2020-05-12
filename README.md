@@ -1,11 +1,10 @@
 # S_CellDetect_Stardist_ROI
-Cytomine app developed by ULiège Cytomine Research team (@rmaree) for Cell (Nuclei) Detection in ROIs, encapsulating Stardist Python code (https://github.com/mpicbg-csbd/stardist/)
-originally developed by Uwe Schmidt, Martin Weigert, Coleman Broaddus, and Gene Myers and published in Cell Detection with Star-convex Polygons. International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI), Granada, Spain, September 2018.
+Cytomine app developed by ULiège Cytomine Research team for Cell/Nuclei detection in region of interests (ROIs), encapsulating Stardist Python code (https://github.com/mpicbg-csbd/stardist/) originally developed by Uwe Schmidt, Martin Weigert, Coleman Broaddus, and Gene Myers as published in Cell Detection with Star-convex Polygons. International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI), Granada, Spain, September 2018.
 
 This implementation follows Cytomine (=v3.0) external app conventions based on container technology. 
 It applies a Stardist pre-trained model (versatile_HE) to Cytomine regions of interest within large whole-slide images. 
 
-To launch such an analysis, a user first specify a Cytomine ROI annotation term identifier, a nuclei/cell term identifier, and a list of images where to apply the detector (seen screenshot below). The app will then apply the algorithm to all Cytomine ROI annotations labeled by the user with this term, in the list of whole-slide images. Detected objects are labeled with the nuclei/cell term identifier.
+To launch such an analysis, a user first specify a Cytomine ROI annotation term identifier, a nuclei/cell term identifier, and a list of images where to apply the detector (see screenshot below). The app will then apply the algorithm to all Cytomine ROI annotations labeled by the user with this term, in the list of whole-slide images of the current project. Detected objects are labeled with the nuclei/cell term identifier.
 
 While the original model provided by Schmidt et al. was trained with H&E images, it seems to produce decent results with other stainings and image types. Future work should compare how well it matches ground-truth on specific images (benchmarking) and investigate fine-tuned models with specific data to reach even better performance.
 
