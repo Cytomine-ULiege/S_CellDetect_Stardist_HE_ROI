@@ -1,5 +1,5 @@
 # S_CellDetect_Stardist_ROI
-Cytomine app for Cell (Nuclei) Detection in ROIs, encapsulating Stardist Python code (https://github.com/mpicbg-csbd/stardist/)
+Cytomine app developed by ULiège Cytomine Research team (@rmaree) for Cell (Nuclei) Detection in ROIs, encapsulating Stardist Python code (https://github.com/mpicbg-csbd/stardist/)
 originally developed by Uwe Schmidt, Martin Weigert, Coleman Broaddus, and Gene Myers and published in Cell Detection with Star-convex Polygons. International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI), Granada, Spain, September 2018.
 
 This implementation follows Cytomine (=v3.0) external app conventions based on container technology. 
