@@ -5,7 +5,7 @@
         "type": "singularity"
     },
     "schema-version": "cytomine-0.1",
-    "description": "optional description",
+    "description": "Cell (nuclei) detection using StarDist with versatile H&E pre-trained model",
     "command-line": "python run.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE CYTOMINE_ID_IMAGES CYTOMINE_ID_ROI_TERM CYTOMINE_ID_CELL_TERM STARDIST_PROB_T STARDIST_NMS_T STARDIST_NORM_PERC_LOW STARDIST_NORM_PERC_HIGH",
     "inputs": [
         {
