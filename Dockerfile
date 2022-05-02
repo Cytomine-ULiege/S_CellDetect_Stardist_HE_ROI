@@ -1,4 +1,4 @@
-FROM python:3.7-stretch
+FROM python:3.8
 
 # Create the directories
 RUN mkdir -p app/ models/ models/2D_versatile_HE/
