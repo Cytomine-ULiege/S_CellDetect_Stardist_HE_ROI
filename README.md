@@ -1,5 +1,8 @@
 # S_CellDetect_Stardist_ROI
-Cytomine (https://cytomine.org) app developed by ULiège Cytomine Research team (https://uliege.cytomine.org) for Cell/Nuclei detection in region of interests (ROIs), encapsulating Stardist Python code (https://github.com/mpicbg-csbd/stardist/) originally developed by Uwe Schmidt, Martin Weigert, Coleman Broaddus, and Gene Myers as published in Cell Detection with Star-convex Polygons. International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI), Granada, Spain, September 2018.
+
+Cytomine (https://cytomine.org) app developed by ULiège Cytomine Research team (https://uliege.cytomine.org) for Cell/Nuclei detection in region of interests (ROIs),
+encapsulating Stardist Python code (https://github.com/stardist/stardist) originally developed by Uwe Schmidt, Martin Weigert, Coleman Broaddus, and Gene Myers as published in Cell Detection with Star-convex Polygons.
+International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI), Granada, Spain, September 2018.
 
 This implementation follows Cytomine (=v3.0) external app conventions based on container technology. 
 It applies a Stardist pre-trained model (versatile_HE) to Cytomine regions of interest within large whole-slide images. 
@@ -10,7 +13,11 @@ While the original model provided by Schmidt et al. was trained with H&E images,
 
 This version use tensorflow CPU version (See Dockerfile) to ensure compatibility with a larger number of computers. A GPU version should be possible by adapting the Dockerfile with tensorflow-gpu and/or nvidia-docker images.
 
-Here is an example of StarDist detections in Cytomine web viewer of a whole-slide image:
+# Stardist weights model
+
+Stardist H&E model downloaded from the link https://drive.switch.ch/index.php/s/LTYaIud7w6lCyuI given in https://github.com/mpicbg-csbd/stardist/issues/46.
+
+# Example of StarDist detections in Cytomine web viewer of a whole-slide image
 
 ![](screenshot-launch.jpg)
 ![](screenshot.jpg)
