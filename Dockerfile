@@ -14,7 +14,9 @@ COPY config.json /models/2D_versatile_HE/config.json
 COPY thresholds.json /models/2D_versatile_HE/thresholds.json
 COPY weights_best.h5 /models/2D_versatile_HE/weights_best.h5
 
-RUN chmod -R 444 /models/2D_versatile_HE/
+RUN chmod 444 /models/2D_versatile_HE/config.json
+RUN chmod 444 /models/2D_versatile_HE/thresholds.json
+RUN chmod 444 /models/2D_versatile_HE/weights_best.h5
 
 # Install scripts
 COPY descriptor.json /app/descriptor.json

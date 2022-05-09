@@ -50,7 +50,7 @@ def main(argv):
         np.random.seed(17)
 
         # use local model file in ~/models/2D_versatile_HE/
-        model = StarDist2D(None, name='2D_versatile_HE', basedir='models/')
+        model = StarDist2D(None, name='2D_versatile_HE', basedir='/models/')
 
         # Select images to process
         images = ImageInstanceCollection().fetch_with_filter(
