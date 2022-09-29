@@ -29,7 +29,7 @@ msgpack==1.0.3
 networkx==2.8
 numba==0.55.2
 numpy==1.22.0
-oauthlib==3.2.0
+oauthlib==3.2.1
 opencv-python-headless==4.5.5.64
 opt-einsum==3.3.0
 packaging==21.3
