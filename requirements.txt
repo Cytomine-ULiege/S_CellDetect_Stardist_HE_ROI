@@ -27,7 +27,7 @@ Markdown==3.3.6
 matplotlib==3.5.1
 msgpack==1.0.3
 networkx==2.8
-numba==0.55.1
+numba==0.55.2
 numpy==1.22.0
 oauthlib==3.2.0
 opencv-python-headless==4.5.5.64
@@ -53,6 +53,7 @@ tensorboard==2.8.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 tensorflow==2.8.0
+tensorflow-estimator==2.8.0
 tensorflow-io-gcs-filesystem==0.25.0
 termcolor==1.1.0
 tf-estimator-nightly==2.8.0.dev2021122109
