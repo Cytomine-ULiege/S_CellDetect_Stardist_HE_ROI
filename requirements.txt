@@ -61,6 +61,6 @@ tifffile==2022.4.28
 tqdm==4.64.0
 typing-extensions==4.2.0
 urllib3==1.26.9
-Werkzeug==2.1.2
+Werkzeug==2.2.3
 wrapt==1.14.0
 zipp==3.8.0
